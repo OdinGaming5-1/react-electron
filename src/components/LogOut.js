@@ -1,8 +1,6 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 
-const LogOut = () => {
-  const navigate = useNavigate();
+const LogOut = ({ navigate }) => {
 
   function handleClick() {
     navigate("/");

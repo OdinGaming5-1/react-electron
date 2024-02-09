@@ -5,7 +5,7 @@ import { DeleteById, FindAll, FindByStatus, Insert, UpdateRow } from "../mainTab
 import StatusEnum from "../StatusEnum";
 import LogOut from "../components/LogOut";
 
-const AdminPage = () => {
+const AdminPage = ({ navigate }) => {
   const [rows, setRows] = useState([]);
 
   async function loadData() {
@@ -24,7 +24,7 @@ const AdminPage = () => {
   return (
     <div>
       <h2>Mağaza Sayfası</h2>
-      <LogOut />
+      <LogOut navigate={navigate} />
       <table>
         <TableHeader isAdmin={true} onFilterChange={loadDataByStatus} />
         <tbody>

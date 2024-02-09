@@ -1,10 +1,8 @@
 import React from "react";
 import { FindRole } from "../rolesTableHandler";
-import { useNavigate } from "react-router-dom";
 import NUserForm from "../components/NUserForm";
 
-export default function NLoginPage() {
-  const navigate = useNavigate();
+export default function NLoginPage({ navigate }) {
 
   function getPageByRole(role) {
     switch (role) {

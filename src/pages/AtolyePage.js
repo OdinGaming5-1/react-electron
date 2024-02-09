@@ -4,7 +4,7 @@ import AtolyeTableRow from "../components/AtolyeTableRow";
 import { FindAll,FindByStatus, UpdateStatus } from "../mainTableHandler";
 import LogOut from "../components/LogOut";
 
-const AtolyePage = () => {
+const AtolyePage = ({ navigate }) => {
   const [rows, setRows] = useState([]);
 
   async function loadData() {
@@ -23,7 +23,7 @@ const AtolyePage = () => {
   return (
     <div>
       <h2>Atölye Sayfası</h2>
-      <LogOut />
+      <LogOut navigate={navigate} />
       <table>
         {rows.length > 0 && <TableHeader onFilterChange={loadDataByStatus} />}
         <tbody>
