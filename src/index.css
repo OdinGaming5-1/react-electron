@@ -27,6 +27,7 @@ table>*{
 table td input, table td textarea {
   border: none;
   color:black;
+  background: transparent;
   font-weight: bold ;
   min-height: 100%;
   min-width: max-content;
@@ -53,7 +54,22 @@ tr.redRow{
   background-color: #d8a8a8;
   border:1px solid rgb(0, 0, 0);
 }
+tr.blueRow{
+  background-color: #a0a0ff;
+  border:1px solid rgb(0, 0, 0);
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.columnDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.mt-20 {
+  margin-top: 20%;
 }

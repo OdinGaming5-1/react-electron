@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import TableHeader from "../components/TableHeader";
 import AtolyeTableRow from "../components/AtolyeTableRow";
-import { FindAll,FindByStatus, UpdateStatus } from "../mainTableHandler";
-import LogOut from "../components/LogOut";
+import { FindAll,FindByStatus, UpdateStatus,FindByName } from "../mainTableHandler";
+import Title from "../components/Title";
 
 const AtolyePage = ({ navigate }) => {
   const [rows, setRows] = useState([]);
@@ -15,21 +15,23 @@ const AtolyePage = ({ navigate }) => {
     const data = await FindByStatus(values);
     setRows(data);
   }
-
+  async function loadDataByName(value) {
+    if(value==="")
+      loadData();
+    const data = await FindByName(value);
+    setRows(data);
+  }
   useEffect(() => {
     loadData();
   }, []);
 
   return (
-    <div>
-      <h2>Atölye Sayfası</h2>
-      <LogOut navigate={navigate} />
+    <div className="columnDiv">
+      <Title navigate={navigate} title={"Atölye Sayfası"}/>
       <table>
-        {rows.length > 0 && <TableHeader onFilterChange={loadDataByStatus} />}
+        <TableHeader onFilterChange={loadDataByStatus} onNameFilter={loadDataByName}/>
         <tbody>
-          {rows.length <=0 ? 
-          <h3>Kayıt Yok</h3>
-          : rows.map((row, key) => (
+          {rows.length > 0 && rows.map((row) => (
             <AtolyeTableRow
               key={row.id}
               data={row}
@@ -41,6 +43,7 @@ const AtolyePage = ({ navigate }) => {
           ))}
         </tbody>
       </table>
+      {rows.length <= 0 && <p>Kayıt Yok</p>}
     </div>
   );
 };

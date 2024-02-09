@@ -6,6 +6,7 @@ export default function AdminTableRow({
   isnew = false,
   onSave,
   onEdit,
+  onCancel,
   onDelete,
 }) {
   const [editable, setEditable] = useState(isnew);
@@ -28,7 +29,6 @@ export default function AdminTableRow({
   }
 
   const setField = ({ name, e }) => {
-    console.log(state);
     setState({
       ...state,
       [name]: e.target.value,
@@ -37,11 +37,10 @@ export default function AdminTableRow({
 
   return (
     <tr
-      className={
-        (isnew && "inputRow") ||
-        (state?.status === StatusEnum.New && "greenRow") ||
+      className={ (state?.status === StatusEnum.New && "greenRow") ||
         (state?.status === StatusEnum.Processing && "orangeRow") ||
-        (state?.status === StatusEnum.Done && "redRow")
+        (state?.status === StatusEnum.Done && "redRow") ||
+        (state?.status === StatusEnum.Cancel && "blueRow")
       }
     >
       <td>
@@ -60,6 +59,12 @@ export default function AdminTableRow({
           value={state?.detail}
           onChange={(e) => setField({ name: "detail", e: e })}
         />
+      </td>
+      <td>{GetFormattedDate(state?.createdDate)}</td>
+      <td>{GetFormattedDate(state?.processDate)}</td>
+      <td>{GetFormattedDate(state?.finishedDate)}</td>
+      <td>
+        <span disabled={!editable}>{state?.status}</span>
       </td>
       <td>
         {onSave && (
@@ -86,8 +91,19 @@ export default function AdminTableRow({
         )}
         <button
           onClick={() => {
+            if (onCancel) {
+              onCancel(StatusEnum.Cancel);
+              return;
+            }
+            setState(null);
+          }}
+        >
+          İptal
+        </button>
+        <button
+          onClick={() => {
             if (onDelete) {
-              onDelete(state.id);
+              onDelete(data?.id);
               return;
             }
             setState(null);
@@ -95,12 +111,6 @@ export default function AdminTableRow({
         >
           Sil
         </button>
-      </td>
-      <td>{GetFormattedDate(state?.createdDate)}</td>
-      <td>{GetFormattedDate(state?.processDate)}</td>
-      <td>{GetFormattedDate(state?.finishedDate)}</td>
-      <td>
-        <span disabled={!editable}>{state?.status}</span>
       </td>
     </tr>
   );

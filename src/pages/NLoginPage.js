@@ -24,7 +24,7 @@ export default function NLoginPage({ navigate }) {
     navigate(page);
   }
   return (
-    <div>
+    <div className="columnDiv mt-20">
       <h2>NLogin</h2>
       <NUserForm
         onSubmit={loadDatas} 

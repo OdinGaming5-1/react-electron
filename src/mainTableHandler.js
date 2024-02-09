@@ -1,38 +1,24 @@
 import StatusEnum from "./StatusEnum";
 import supabase from "./supabaseConnection";
 
-export async function FindAll() {
+export async function FindByName(name) {
   try {
-    const { data: data1, error: error1 } = await supabase
+    const { data, error } = await supabase
       .from("mainTable")
       .select("*")
-      .eq("status", StatusEnum.New)
+      .ilike("name", `%${name}%`)
       .order("createdDate", { ascending: false })
       .order("processDate", { ascending: false })
       .order("finishedDate", { ascending: false });
-    if (error1) throw error1;
-
-    const { data: data2, error: error2 } = await supabase
-      .from("mainTable")
-      .select("*")
-      .eq("status", StatusEnum.Processing)
-      .order("createdDate", { ascending: false })
-      .order("processDate", { ascending: false })
-      .order("finishedDate", { ascending: false });
-    if (error2) throw error2;
-
-    const { data: data3, error: error3 } = await supabase
-      .from("mainTable")
-      .select("*")
-      .eq("status", StatusEnum.Done)
-      .order("createdDate", { ascending: false })
-      .order("processDate", { ascending: false })
-      .order("finishedDate", { ascending: false });
-    if (error3) throw error3;
-    return [...data1, ...data2, ...data3];
+    if (error) throw error;
+    return data;
   } catch (error) {
-    console.error("FindAll", error);
-  }
+    console.error("FindByName", error);
+  } 
+}
+
+export async function FindAll() {
+  return FindByStatus([StatusEnum.New, StatusEnum.Processing, StatusEnum.Cancel, StatusEnum.Done]);
 }
 export async function FindByStatus(status) {
   try {
@@ -56,9 +42,8 @@ export async function FindByStatus(status) {
 }
 export async function Insert(value) {
   try {
-    const { data, error } = await supabase.from("mainTable").insert([value]);
+    const { error } = await supabase.from("mainTable").insert([value]);
     if (error) throw error;
-    console.log("Insert", data);
   } catch (error) {
     console.error("Insert", error);
   }
