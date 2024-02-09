@@ -14,10 +14,15 @@ function createWindow() {
       enableRemoteModule: true
     }
   })
-
-  // win.loadURL('http://localhost:3000');
-  win.loadURL(`file://${path.join(__dirname, '../build/index.html')}`);
-  win.webContents.openDevTools({ mode: 'detach' });
+  win.setMenu(null);
+  if(true)
+  {
+    win.loadURL('http://localhost:3000');
+  }
+  else{
+    win.loadURL(`file://${path.join(__dirname, '../build/index.html')}`);
+  }
+  //win.webContents.openDevTools({ mode: 'detach' });
 }
 
 app.whenReady().then(createWindow);
