@@ -25,6 +25,7 @@
     "electron:serve": "concurrently -k \"cross-env BROWSER=none npm start\" \"npm run electron:start\"",
     "electron:build": "npm run build && electron-builder -c.extraMetadata.main=build/main.js",
     "electron:start": " wait-on tcp:3000 && electron .",
+    "electron:package": "npm run build && electron-packager . --overwrite --platform=win32 --arch=x64 --out=dist",
     "electron:package-mac": "npm run build && electron-packager . --overwrite --platform=darwin --arch=x64 --out=dist --prune=true "
   },
   "build": {
