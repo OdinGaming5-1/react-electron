@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
     DeleteById,
   FindAll,
-  FindByNameOtherThanOld,
+  FindByNameOld,
   FindByStatus,
   UpdateRow,
   UpdateStatus,
@@ -11,7 +11,7 @@ import AdminTableRow from "../components/AdminTableRow";
 import TableHeader from "../components/TableHeader";
 import Title from "../components/Title";
 
-export default function ListEntryPage({ navigate }) {
+export default function ListOldEntryPage({ navigate }) {
   const [rows, setRows] = useState([]);
 
   async function loadData() {
@@ -19,20 +19,19 @@ export default function ListEntryPage({ navigate }) {
     setRows(data);
   }
   async function loadDataByStatus(values) {
-
-    console.log(values);
     const data = await FindByStatus(values);
     setRows(data);
+    console.log(data);
   }
   async function loadDataByName(value) {
     if(value==="")
-        loadData();
-    const data = await FindByNameOtherThanOld(value);
+      loadDataByStatus(['Bitti']);
+    const data = await FindByNameOld(value);
     setRows(data);
   }
 
   useEffect(() => {
-    loadData();
+    loadDataByStatus(['Bitti']);
   }, []);
 
   return (
@@ -40,10 +39,10 @@ export default function ListEntryPage({ navigate }) {
       <Title navigate={navigate} title={"Mağaza Sayfası"} />
       <button onClick={() => {navigate('/admin')}} >Geri</button>
       <table>
-        <TableHeader isAdmin={true} onFilterChange={loadDataByStatus} onNameFilter={loadDataByName} isOld={false} isAtolye={false}/>
+      <TableHeader isAdmin={true} onFilterChange={loadDataByStatus} onNameFilter={loadDataByName} isOld={true} isAtolye={false}/>
         <tbody>
           {rows.map((row) => (
-            <AdminTableRow
+            <AdminTableRow isOld={true}
               data={row}
               key={row.id}
               onEdit={async (value) => {

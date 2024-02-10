@@ -14,7 +14,7 @@ table{
   margin: 2rem;
 }
 table th, table td{
-  border: 1px solid black;
+  border: 1px solid blue;
   padding: 8px;
 }
 
@@ -26,7 +26,7 @@ table>*{
 
 table td input, table td textarea {
   border: none;
-  color:black;
+  color:blue;
   background: transparent;
   font-weight: bold ;
   min-height: 100%;
@@ -34,13 +34,13 @@ table td input, table td textarea {
 }
 thead
 {
-  background-color: black;
+  background-color: blue;
   color:white;
-  border:2px solid black;
+  border:2px solid blue;
 }
 tr.inputRow{
   background-color: #e2e2e2;
-  border:2px solid black;
+  border:2px solid blue;
 }
 tr.greenRow{
   background-color: #a8d8a8;

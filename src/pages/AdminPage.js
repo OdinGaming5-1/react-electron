@@ -7,8 +7,10 @@ const AdminPage = ({ navigate }) => {
     <div className="columnDiv mt-20">
       <Title navigate={navigate} title={"Mağaza Sayfası"}/>
       <StyledButton onClick={()=>{navigate("/new")}}>Yeni Kayıt</StyledButton>
-          <br />
+      <br />
       <StyledButton onClick={()=>{navigate("/list")}}>Kayıtları Listele</StyledButton>
+      <br />
+      <StyledButton onClick={()=>{navigate("/listold")}}>Geçmiş Kayıtlar</StyledButton>
     </div>
   );
 };

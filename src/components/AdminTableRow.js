@@ -8,6 +8,7 @@ export default function AdminTableRow({
   onEdit,
   onCancel,
   onDelete,
+  isOld
 }) {
   const [editable, setEditable] = useState(isnew);
   const [state, setState] = useState(data);
@@ -63,9 +64,9 @@ export default function AdminTableRow({
       <td>{GetFormattedDate(state?.createdDate)}</td>
       <td>{GetFormattedDate(state?.processDate)}</td>
       <td>{GetFormattedDate(state?.finishedDate)}</td>
-      <td>
-        <span disabled={!editable}>{state?.status}</span>
-      </td>
+      {!isOld &&<td>
+         <span disabled={!editable}>{state?.status}</span>
+      </td>}
       <td>
         {onSave && (
           <button

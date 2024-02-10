@@ -25,7 +25,7 @@ export default function NLoginPage({ navigate }) {
   }
   return (
     <div className="columnDiv mt-20">
-      <h2>NLogin</h2>
+      <h2>Giriş</h2>
       <NUserForm
         onSubmit={loadDatas} 
         buttonTitle={"Login"} />

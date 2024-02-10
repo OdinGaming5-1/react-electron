@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import StatusEnum from "../StatusEnum";
 
-export default function TableHeader({ isAdmin, onFilterChange,onNameFilter }) {
+export default function TableHeader({ isAdmin, onFilterChange,onNameFilter,isOld,isAtolye }) {
   const [statusFilter, setStatusFilter] = useState(0);
   const [nameFilter, setNameFilter] = useState("");
   const handleChange = (event) => {
@@ -46,16 +46,28 @@ export default function TableHeader({ isAdmin, onFilterChange,onNameFilter }) {
             <th>Bitti(Tarih)</th>
           </>
         )}
-        <th>
-          Durum
+        
+        {(!isAtolye && !isOld) && (<>
+          <th>Durum
           <select value={statusFilter} onChange={handleChange}>
             <option>Hepsi</option>
-            <option>Bittiler</option>
             <option>Çalışılıyorlar</option>
             <option>Yeniler</option>
             <option>İptal Edilenler</option>
-          </select>
-        </th>
+          </select></th></>)
+          }
+        
+        {isAtolye && (<>
+        Durum
+          <select value={statusFilter} onChange={handleChange}>
+            <option>Hepsi</option>
+            <option>Çalışılıyorlar</option>
+            <option>Yeniler</option>
+            <option>İptal Edilenler</option>
+            <option>Bittiler</option>
+          </select></>)
+          }
+        
         {isAdmin && <th>İşlemler</th>}
       </tr>
     </thead>

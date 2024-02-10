@@ -17,6 +17,40 @@ export async function FindByName(name) {
   } 
 }
 
+export async function FindByNameOld(name) {
+  try {
+    const { data, error } = await supabase
+      .from("mainTable")
+      .select("*")
+      .eq("status", "Bitti")
+      .ilike("name", `%${name}%`)
+      .order("createdDate", { ascending: false })
+      .order("processDate", { ascending: false })
+      .order("finishedDate", { ascending: false });
+    if (error) throw error;
+    return data;
+  } catch (error) {
+    console.error("FindByName", error);
+  } 
+}
+
+export async function FindByNameOtherThanOld(name) {
+  try {
+    const { data, error } = await supabase
+      .from("mainTable")
+      .select("*")
+      .neq("status", "Bitti")
+      .ilike("name", `%${name}%`)
+      .order("createdDate", { ascending: false })
+      .order("processDate", { ascending: false })
+      .order("finishedDate", { ascending: false });
+    if (error) throw error;
+    return data;
+  } catch (error) {
+    console.error("FindByName", error);
+  } 
+}
+
 export async function FindAll() {
   return FindByStatus([StatusEnum.New, StatusEnum.Processing, StatusEnum.Cancel, StatusEnum.Done]);
 }

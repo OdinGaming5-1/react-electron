@@ -20,7 +20,7 @@ const StyledButton = styled.button`
   width: 300px;
   padding: 10px;
   background-color: #007bff;
-  background-color: black;
+  background-color: blue;
   color: #fff;
   border: none;
   border-radius: 3px;
@@ -74,7 +74,7 @@ const StyledTextArea = styled.textarea`
 //   width: 100%;
 //   padding: 10px;
 //   background-color: #007bff;
-//   background-color: black;
+//   background-color: blue;
 //   color: #fff;
 //   border: none;
 //   border-radius: 3px;

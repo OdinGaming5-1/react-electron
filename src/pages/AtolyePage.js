@@ -29,7 +29,7 @@ const AtolyePage = ({ navigate }) => {
     <div className="columnDiv">
       <Title navigate={navigate} title={"Atölye Sayfası"}/>
       <table>
-        <TableHeader onFilterChange={loadDataByStatus} onNameFilter={loadDataByName}/>
+        <TableHeader onFilterChange={loadDataByStatus} onNameFilter={loadDataByName} isAtolye={true}/>
         <tbody>
           {rows.length > 0 && rows.map((row) => (
             <AtolyeTableRow
