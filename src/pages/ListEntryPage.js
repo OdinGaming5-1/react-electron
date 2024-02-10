@@ -1,69 +1,26 @@
-import React, { useState, useEffect } from "react";
-import {
-    DeleteById,
-  FindAll,
-  FindByNameOtherThanOld,
-  FindByStatus,
-  UpdateRow,
-  UpdateStatus,
-} from "../mainTableHandler";
+import React from "react";
+import { DeleteById, UpdateRow, UpdateStatus } from "../mainTableHandler";
 import AdminTableRow from "../components/AdminTableRow";
-import TableHeader from "../components/TableHeader";
 import Title from "../components/Title";
+import TableView from "../components/TableView";
 
 export default function ListEntryPage({ navigate }) {
-  const [rows, setRows] = useState([]);
-
-  async function loadData() {
-    const data = await FindAll();
-    setRows(data);
+  function buildRow(row, loadData) {
+    return (
+      <AdminTableRow
+        data={row}
+        key={row.id}
+        onEdit={async (value) => await UpdateRow(value).then((v) => loadData())}
+        onCancel={async (value) => await UpdateStatus(row.id, value).then((v) => loadData())}
+        onDelete={async (value) => await DeleteById(value).then((v) => loadData())}
+      />
+    );
   }
-  async function loadDataByStatus(values) {
-
-    console.log(values);
-    const data = await FindByStatus(values);
-    setRows(data);
-  }
-  async function loadDataByName(value) {
-    if(value==="")
-        loadData();
-    const data = await FindByNameOtherThanOld(value);
-    setRows(data);
-  }
-
-  useEffect(() => {
-    loadData();
-  }, []);
-
   return (
     <div className="columnDiv">
       <Title navigate={navigate} title={"Mağaza Sayfası"} />
-      <button onClick={() => {navigate('/admin')}} >Geri</button>
-      <table>
-        <TableHeader isAdmin={true} onFilterChange={loadDataByStatus} onNameFilter={loadDataByName} isOld={false} isAtolye={false}/>
-        <tbody>
-          {rows.map((row) => (
-            <AdminTableRow
-              data={row}
-              key={row.id}
-              onEdit={async (value) => {
-                await UpdateRow(value);
-                loadData();
-              }}
-              onCancel={async (value) => {
-                console.log("UpdateStatus-Cancel:", value);
-                await UpdateStatus(row.id, value);
-                loadData();
-              }}
-              onDelete={async (value) => {
-                console.log("DeleteById:", value);
-                await DeleteById(value);
-                loadData();
-              }}
-            />
-          ))}
-        </tbody>
-      </table>
+      <button onClick={() => navigate("/admin")}>Geri</button>
+      <TableView isAdmin builder={buildRow} />
     </div>
   );
 }

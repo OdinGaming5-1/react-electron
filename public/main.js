@@ -23,7 +23,7 @@ function createWindow() {
   else{
     win.loadURL(`file://${path.join(__dirname, '../build/index.html')}`);
   }
-  win.webContents.openDevTools({ mode: 'detach' });
+  win.webContents.openDevTools(); //{ mode: 'detach' }
 }
 
 app.whenReady().then(createWindow);

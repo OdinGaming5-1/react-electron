@@ -3,15 +3,15 @@ import StatusEnum from "../StatusEnum";
 
 export default function AdminTableRow({
   data,
-  isnew = false,
   onSave,
   onEdit,
   onCancel,
   onDelete,
-  isOld
+  isOld,
 }) {
-  const [editable, setEditable] = useState(isnew);
+  const [editable, setEditable] = useState(false);
   const [state, setState] = useState(data);
+  const [className] = useState(getClassNameFromStatus());
 
   function GetFormattedDate(date) {
     if (date === null || date === undefined) return "-";
@@ -29,6 +29,21 @@ export default function AdminTableRow({
     );
   }
 
+  function getClassNameFromStatus() {
+    switch (state?.status) {
+      case StatusEnum.New:
+        return "greenRow";
+      case StatusEnum.Processing:
+        return "orangeRow";
+      case StatusEnum.Cancel:
+        return "blueRow";
+      case StatusEnum.Done:
+        return "redRow";
+      default:
+        return "";
+    }
+  }
+
   const setField = ({ name, e }) => {
     setState({
       ...state,
@@ -37,13 +52,7 @@ export default function AdminTableRow({
   };
 
   return (
-    <tr
-      className={ (state?.status === StatusEnum.New && "greenRow") ||
-        (state?.status === StatusEnum.Processing && "orangeRow") ||
-        (state?.status === StatusEnum.Done && "redRow") ||
-        (state?.status === StatusEnum.Cancel && "blueRow")
-      }
-    >
+    <tr className={className}>
       <td>
         <input
           disabled={!editable}
@@ -64,25 +73,29 @@ export default function AdminTableRow({
       <td>{GetFormattedDate(state?.createdDate)}</td>
       <td>{GetFormattedDate(state?.processDate)}</td>
       <td>{GetFormattedDate(state?.finishedDate)}</td>
-      {!isOld &&<td>
-         <span disabled={!editable}>{state?.status}</span>
-      </td>}
+      {!isOld && (
+        <td>
+          <span disabled={!editable}>{state?.status}</span>
+        </td>
+      )}
       <td>
         {onSave && (
           <button
             onClick={() => {
               onSave(state);
-              setState({ status: StatusEnum.New, name: "", detail: "" });
+              setState({ status_id: 1, name: "", detail: "" });
             }}
           >
             Ekle
           </button>
         )}
-        {onEdit && state.status === StatusEnum.New && (
+        {onEdit && state?.status === StatusEnum.New && (
           <button
             onClick={function () {
               if (editable) {
-                onEdit(state);
+                let val = { ...state };
+                delete val.status;
+                onEdit(val);
               }
               setEditable((p) => !p);
             }}
@@ -90,17 +103,9 @@ export default function AdminTableRow({
             {editable ? "Tamamla" : "Düzenle"}
           </button>
         )}
-        <button
-          onClick={() => {
-            if (onCancel) {
-              onCancel(StatusEnum.Cancel);
-              return;
-            }
-            setState(null);
-          }}
-        >
-          İptal
-        </button>
+        {onCancel && state?.status !== StatusEnum.Cancel && (
+          <button onClick={() => onCancel(StatusEnum.Cancel)}>İptal</button>
+        )}
         <button
           onClick={() => {
             if (onDelete) {
@@ -115,5 +120,4 @@ export default function AdminTableRow({
       </td>
     </tr>
   );
-  // }
 }

@@ -5,18 +5,19 @@ import {
   StyledInput,
   StyledTextArea,
 } from "../components/StyledComponents";
-import StatusEnum from "../StatusEnum";
 import Title from "../components/Title";
 import { Insert } from "../mainTableHandler";
 
 export default function NewEntryPage({ navigate }) {
+  const [saveMessage, setSaveMessage] = useState("");
   const [state, setState] = useState({
-    status: StatusEnum.New,
+    status_id: 1,
     name: "",
     detail: "",
   });
 
   const setField = ({ name, e }) => {
+    setSaveMessage("");
     setState({
       ...state,
       [name]: e.target.value,
@@ -30,11 +31,11 @@ export default function NewEntryPage({ navigate }) {
   const save = () => {
     try {
       Insert(state);
-      alert("Kayıt Eklendi");
+      setSaveMessage('Kayıt Eklendi');
     } catch (error) {
-      alert("Hata", error);
+      setSaveMessage(`Hata: ${error}`);
     } finally {
-      setState({ status: StatusEnum.New, name: "", detail: "" });
+      setState({ status_id: 1, name: "", detail: "" });
     }
   };
 
@@ -54,9 +55,10 @@ export default function NewEntryPage({ navigate }) {
           onChange={(e) => setField({ name: "detail", e: e })}
         />
         <StyledButton onClick={save}>Ekle</StyledButton>
-      <br />
-      <StyledButton onClick={popBack}>İptal</StyledButton>
+        <br />
+        <StyledButton onClick={popBack}>İptal</StyledButton>
       </CenteredContainer300>
+        {saveMessage && <p className="columnDiv">{saveMessage}</p>}
     </div>
   );
 }

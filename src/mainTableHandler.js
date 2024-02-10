@@ -1,77 +1,48 @@
-import StatusEnum from "./StatusEnum";
+import StatusEnum, { all, getId, getValue } from "./StatusEnum";
 import supabase from "./supabaseConnection";
 
-export async function FindByName(name) {
+export async function FindCount() {
   try {
+    const { count } = await supabase
+      .from("mainTable")
+      .select("*", { count: "exact" });
+    return count;
+  } catch (error) {
+    console.error("FindCount", error);
+  }
+}
+export async function FindAll({ page, itemCount }) {
+  return FindByNameAndStatus({ name: "", status: all(), page: page, itemCount: itemCount });
+}
+export async function FindByNameAndStatus({ name, status, page, itemCount }) {
+  try {
+    const statusIdList = [];
+    status.forEach((e) => statusIdList.push(getId(e)));
     const { data, error } = await supabase
       .from("mainTable")
       .select("*")
       .ilike("name", `%${name}%`)
+      .in("status_id", statusIdList)
+      .order("status_id")
       .order("createdDate", { ascending: false })
       .order("processDate", { ascending: false })
-      .order("finishedDate", { ascending: false });
-    if (error) throw error;
-    return data;
-  } catch (error) {
-    console.error("FindByName", error);
-  } 
-}
-
-export async function FindByNameOld(name) {
-  try {
-    const { data, error } = await supabase
+      .order("finishedDate", { ascending: false })
+      .range((page - 1) * itemCount, page * itemCount - 1);
+    let value = data.map((v, i) => {
+      return {
+        ...v,
+        status: getValue(v.status_id),
+      };
+    });
+    const { count } = await supabase
       .from("mainTable")
-      .select("*")
-      .eq("status", "Bitti")
+      .select("*", { count: "exact" })
       .ilike("name", `%${name}%`)
-      .order("createdDate", { ascending: false })
-      .order("processDate", { ascending: false })
-      .order("finishedDate", { ascending: false });
+      .in("status_id", statusIdList);
     if (error) throw error;
-    return data;
+    return { data: value, length: count };
   } catch (error) {
-    console.error("FindByName", error);
-  } 
-}
-
-export async function FindByNameOtherThanOld(name) {
-  try {
-    const { data, error } = await supabase
-      .from("mainTable")
-      .select("*")
-      .neq("status", "Bitti")
-      .ilike("name", `%${name}%`)
-      .order("createdDate", { ascending: false })
-      .order("processDate", { ascending: false })
-      .order("finishedDate", { ascending: false });
-    if (error) throw error;
-    return data;
-  } catch (error) {
-    console.error("FindByName", error);
-  } 
-}
-
-export async function FindAll() {
-  return FindByStatus([StatusEnum.New, StatusEnum.Processing, StatusEnum.Cancel, StatusEnum.Done]);
-}
-export async function FindByStatus(status) {
-  try {
-    let result = [];
-    for (let index = 0; index < status.length; index++) {
-      const element = status[index];
-      const { data, error } = await supabase
-        .from("mainTable")
-        .select("*")
-        .eq("status", element)
-        .order("createdDate", { ascending: false })
-        .order("processDate", { ascending: false })
-        .order("finishedDate", { ascending: false });
-      if (error) throw error;
-      result = [...result, ...data];
-    }
-    return result;
-  } catch (error) {
-    console.error("FindBy", error);
+    console.error("FindByNameAndStatus error", error);
   }
 }
 export async function Insert(value) {
@@ -85,19 +56,21 @@ export async function Insert(value) {
 
 export async function UpdateStatus(id, value) {
   try {
+    const statusId = getId(value);
     let updateData = {
-      status: value,
+      status_id: statusId,
     };
-    updateData =
-      value === StatusEnum.Processing
-        ? {
-            ...updateData,
-            processDate: value === StatusEnum.Processing ? new Date() : null,
-          }
-        : {
-            ...updateData,
-            finishedDate: value === StatusEnum.Done ? new Date() : null,
-          };
+    if (value === StatusEnum.Processing) {
+      updateData = {
+        ...updateData,
+        processDate: new Date(),
+      };
+    } else if (value === StatusEnum.Done) {
+      updateData = {
+        ...updateData,
+        finishedDate: new Date(),
+      };
+    }
     const { error } = await supabase
       .from("mainTable")
       .update(updateData)
@@ -116,7 +89,6 @@ export async function UpdateRow(value) {
       .update(value)
       .eq("id", value.id);
     if (error) throw error;
-    console.log("Update");
   } catch (error) {
     console.error("Update", error);
   }
@@ -125,7 +97,6 @@ export async function DeleteById(value) {
   try {
     const { error } = await supabase.from("mainTable").delete().eq("id", value);
     if (error) throw error;
-    console.log("Delete");
   } catch (error) {
     console.error("Delete", error);
   }
