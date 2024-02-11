@@ -22,7 +22,7 @@ export default function AtolyeTableRow({ data, onSave }) {
         <input disabled type="text" value={data?.name} />
       </td>
       <td>
-        <textarea disabled value={data?.detail} />
+        <textarea style={{minWidth: '420px', maxWidth: '420px'}} disabled value={data?.detail} />
       </td>
       <td>
         <span>

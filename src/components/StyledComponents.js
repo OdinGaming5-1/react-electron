@@ -19,16 +19,30 @@ const StyledDiv = styled.div`
 const StyledButton = styled.button`
   width: 300px;
   padding: 10px;
-  background-color: #007bff;
-  background-color: blue;
-  color: #fff;
-  border: none;
-  border-radius: 3px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  color:black;
+  background-color: #e2e2e2;
+  border: 1px solid #a0a0ff;
+  border-radius: 8px;
+  font-weight: 600;
 
   &:hover {
-    background-color: #0056b3;
+    background-color: #ccc;
+  }
+`;
+
+const StyledButton2 = styled.button`
+  padding: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  color:black;
+  background-color: #e2e2e2;
+  border: 1px solid #a0a0ff;
+  border-radius: 8px;
+
+  &:hover {
+    background-color: #ccc;
   }
 `;
 
@@ -62,12 +76,15 @@ const StyledInput = styled.input`
 `;
 // Styled input component
 const StyledTextArea = styled.textarea`
-  width: 100%;
   margin-bottom: 10px;
   padding: 8px;
   box-sizing: border-box;
   border: 1px solid #ccc;
   border-radius: 3px;
+  min-width: 300px;
+  min-height: 60px;
+  max-width: 300px;
+  max-height: 500px;
 `;
 // // Styled button component
 // const StyledButton = styled.button`
@@ -85,4 +102,4 @@ const StyledTextArea = styled.textarea`
 //     background-color: #0056b3;
 //   }
 // `;
-export { StyledContainer, StyledDiv, StyledButton,StyledForm,StyledInput,StyledTextArea, CenteredContainer300 };
+export { StyledContainer, StyledDiv, StyledButton, StyledButton2,StyledForm,StyledInput,StyledTextArea, CenteredContainer300 };

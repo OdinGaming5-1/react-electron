@@ -1,33 +1,17 @@
 import React, { useState } from "react";
 import StatusEnum from "../StatusEnum";
+import { GetFormattedDate } from "../pages/Util";
 
 export default function AdminTableRow({
   data,
   onSave,
   onEdit,
   onCancel,
-  onDelete,
   isOld,
 }) {
   const [editable, setEditable] = useState(false);
   const [state, setState] = useState(data);
   const [className] = useState(getClassNameFromStatus());
-
-  function GetFormattedDate(date) {
-    if (date === null || date === undefined) return "-";
-    const date2 = new Date(date);
-    return (
-      ("0" + date2.getDate()).slice(-2) +
-      "/" +
-      ("0" + (date2.getMonth() + 1)).slice(-2) +
-      "/" +
-      date2.getFullYear() +
-      " " +
-      ("0" + date2.getHours()).slice(-2) +
-      ":" +
-      ("0" + date2.getMinutes()).slice(-2)
-    );
-  }
 
   function getClassNameFromStatus() {
     switch (state?.status) {
@@ -57,6 +41,7 @@ export default function AdminTableRow({
         <input
           disabled={!editable}
           type="text"
+          style={{width: '140px'}}
           placeholder="Müşteri adını giriniz"
           value={state?.name}
           onChange={(e) => setField({ name: "name", e: e })}
@@ -106,7 +91,7 @@ export default function AdminTableRow({
         {onCancel && state?.status !== StatusEnum.Cancel && (
           <button onClick={() => onCancel(StatusEnum.Cancel)}>İptal</button>
         )}
-        <button
+        {/* <button
           onClick={() => {
             if (onDelete) {
               onDelete(data?.id);
@@ -116,7 +101,7 @@ export default function AdminTableRow({
           }}
         >
           Sil
-        </button>
+        </button> */}
       </td>
     </tr>
   );

@@ -1,6 +1,6 @@
 import supabase from "./supabaseConnection";
 
-export async function FindRole({ name, password }) {
+export async function LoginUser({ name, password }) {
   try {
     const { data, error } = await supabase
       .from("users")

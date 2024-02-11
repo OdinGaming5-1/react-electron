@@ -32,16 +32,8 @@ export function getStatusFilter(value) {
   switch (value) {
     case "Hepsi":
       return all();
-    case "Bittiler":
-      return [StatusEnum.Done];
-    case "Çalışılıyorlar":
-      return [StatusEnum.Processing];
-    case "Yeniler":
-      return [StatusEnum.New];
-    case "İptal Edilenler":
-      return [StatusEnum.Cancel];
     default:
-      return [];
+      return [value];
   }
 }
 

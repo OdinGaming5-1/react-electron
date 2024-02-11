@@ -24,10 +24,6 @@ export default function NewEntryPage({ navigate }) {
     });
   };
 
-  const popBack = () => {
-    navigate("/admin");
-  };
-
   const save = () => {
     try {
       Insert(state);
@@ -40,7 +36,7 @@ export default function NewEntryPage({ navigate }) {
   };
 
   return (
-    <div className="columnDiv mt-20">
+    <div className="columnDiv">
       <Title navigate={navigate} title={"Mağaza Sayfası"} />
       <CenteredContainer300 onSubmit={() => {}}>
         <StyledInput
@@ -50,13 +46,12 @@ export default function NewEntryPage({ navigate }) {
           onChange={(e) => setField({ name: "name", e: e })}
         />
         <StyledTextArea
+        style={{minHeight: '300px'}}
           placeholder="Yapılacak işin açıklamasını giriniz"
           value={state?.detail}
           onChange={(e) => setField({ name: "detail", e: e })}
         />
         <StyledButton onClick={save}>Ekle</StyledButton>
-        <br />
-        <StyledButton onClick={popBack}>İptal</StyledButton>
       </CenteredContainer300>
         {saveMessage && <p className="columnDiv">{saveMessage}</p>}
     </div>

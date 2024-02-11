@@ -5,6 +5,7 @@ import NLoginPage from "./pages/NLoginPage";
 import NewEntryPage from "./pages/NewEntryPage";
 import ListEntryPage from "./pages/ListEntryPage"
 import ListOldEntryPage from "./pages/ListOldEntryPage"
+import WipeDataPage from "./pages/WipeDataPage";
 
 const App = () => {
   const [path, setPath] = useState("/");
@@ -21,6 +22,7 @@ const App = () => {
       {path === '/listold' && <ListOldEntryPage navigate={navigate} />}
       {path === '/admin' && <AdminPage navigate={navigate} />}
       {path === '/atolye' && <AtolyePage navigate={navigate} />}
+      {path === '/wipeout' && <WipeDataPage navigate={navigate} />}
     </div>
   );
 };

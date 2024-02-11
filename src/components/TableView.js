@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import TableHeader from "./TableHeader";
-import { all, getStatusFilter } from "../StatusEnum";
+import StatusEnum, { all, getStatusFilter } from "../StatusEnum";
 import { FindByNameAndStatus } from "../mainTableHandler";
 
 export default function TableView({ builder, isAdmin = false, isOld = false }) {
   const [rows, setRows] = useState([]);
   const [page, setPage] = useState(1);
   //const [itemCount, setItemCount] = useState(5);
-  const [itemCount] = useState(10);
+  const [itemCount] = useState(6);
   const [pageCount, setPageCount] = useState(1);
-  const [statusFilter, setStatusFilter] = useState(all());
+  const [statusFilter, setStatusFilter] = useState(isOld ? [StatusEnum.Done] : all());
   const [statusIndex, setStatusIndex] = useState(0);
   const [nameFilter, setNameFilter] = useState("");
 
@@ -61,12 +61,14 @@ export default function TableView({ builder, isAdmin = false, isOld = false }) {
         <tbody>{rows.map((row) => builder(row, loadData))}</tbody>
       </table>
       {rows.length <= 0 && <p>Kayıt Yok</p>}
-      <div>
-        {Array.from({ length: pageCount }, (v, i) => i + 1).map((p) => (
-          <button key={p} onClick={() => setPage(p)}>
+      <div className="rowDiv" style={{marginTop: '16px', marginBottom: '24px'}}>
+        <button disabled={page === 1} onClick={() => setPage(page - 1)}>{'<'}</button>
+        {Array.from({ length: Math.min(pageCount - page + 1, 4) }, (v, i) => i + page + (page === 1 ? 0 : -1)).map((p) => (
+          <button className={page === p ? "selectedPage" : ""} key={p} onClick={() => setPage(p)}>
             {p}
           </button>
         ))}
+        <button disabled={page > pageCount - 4} onClick={() => setPage(page + 1)}>{'>'}</button>
       </div>
       {/* <div>
         {[5, 8, 12].map((c) => (

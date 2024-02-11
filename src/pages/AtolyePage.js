@@ -16,7 +16,7 @@ const AtolyePage = ({ navigate }) => {
   }
   return (
     <div className="columnDiv">
-      <Title navigate={navigate} title={"Atölye Sayfası"} />
+      <Title navigate={navigate} title={"Atölye Sayfası"} shouldPop={false} />
       <TableView builder={buildRow} />
     </div>
   );

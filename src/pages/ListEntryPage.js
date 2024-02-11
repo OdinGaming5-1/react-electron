@@ -19,7 +19,6 @@ export default function ListEntryPage({ navigate }) {
   return (
     <div className="columnDiv">
       <Title navigate={navigate} title={"Mağaza Sayfası"} />
-      <button onClick={() => navigate("/admin")}>Geri</button>
       <TableView isAdmin builder={buildRow} />
     </div>
   );

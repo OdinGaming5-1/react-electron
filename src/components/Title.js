@@ -1,11 +1,14 @@
 import React from "react";
-import LogOut from "./LogOut";
+import { StyledButton2 } from "./StyledComponents";
 
-export default function Title({ title, navigate }) {
+export default function Title({ title, navigate, shouldPop = true }) {
   return (
     <div className="navbar">
-      <h2 style={{float:"left"}}>{title}</h2>
-      <LogOut navigate={navigate} style={{float:"left"}}/>
+      {shouldPop && (
+        <StyledButton2 onClick={() => navigate("/admin")} children="Geri" />
+      )}
+      <h2>{title}</h2>
+      <StyledButton2 onClick={() => navigate("/")} children="Çıkış" />
     </div>
   );
 }

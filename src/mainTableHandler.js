@@ -1,4 +1,5 @@
 import StatusEnum, { all, getId, getValue } from "./StatusEnum";
+import { GetFormattedDate } from "./pages/Util";
 import supabase from "./supabaseConnection";
 
 export async function FindCount() {
@@ -12,7 +13,12 @@ export async function FindCount() {
   }
 }
 export async function FindAll({ page, itemCount }) {
-  return FindByNameAndStatus({ name: "", status: all(), page: page, itemCount: itemCount });
+  return FindByNameAndStatus({
+    name: "",
+    status: all(),
+    page: page,
+    itemCount: itemCount,
+  });
 }
 export async function FindByNameAndStatus({ name, status, page, itemCount }) {
   try {
@@ -99,5 +105,41 @@ export async function DeleteById(value) {
     if (error) throw error;
   } catch (error) {
     console.error("Delete", error);
+  }
+}
+export async function DeleteAllDone() {
+  try {
+    const { error } = await supabase.from("mainTable").delete().eq("status_id", 4); // 4 -> Done
+    if (error) throw error;
+  } catch (error) {
+    console.error("Delete", error);
+  }
+}
+export async function ExportCSV() {
+  try {
+    const { data, error } = await supabase
+      .from("mainTable")
+      .select(`musteri_adi: name, 
+        aciklama: detail, 
+        olusturma_tarihi: createdDate, 
+        islem_tarihi: processDate, 
+        bitis_tarihi: finishedDate`)
+      .csv();
+    if (error) throw error;
+    console.log("CSV", data);
+
+    const csvData = new Blob([data], { type: "text/csv" });
+    const csvUrl = URL.createObjectURL(csvData);
+
+    console.log(csvUrl);
+
+    const link = document.createElement("a");
+    link.href = csvUrl;
+    link.download = GetFormattedDate(new Date()) + "-geçmiş_kayıtlar.csv";
+    link.click();
+
+    URL.revokeObjectURL(csvUrl);
+  } catch (error) {
+    console.error("ExportCSV", error);
   }
 }
