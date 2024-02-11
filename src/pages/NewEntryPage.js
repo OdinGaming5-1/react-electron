@@ -26,10 +26,11 @@ export default function NewEntryPage({ navigate }) {
 
   const save = () => {
     try {
+      if(state.name.trim() === "" || state.detail.trim() === "") throw new Error("Alanları kontrol ediniz");
       Insert(state);
       setSaveMessage('Kayıt Eklendi');
     } catch (error) {
-      setSaveMessage(`Hata: ${error}`);
+      setSaveMessage(`Hata: ${error.message}`);
     } finally {
       setState({ status_id: 1, name: "", detail: "" });
     }

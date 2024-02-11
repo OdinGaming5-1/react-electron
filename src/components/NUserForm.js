@@ -14,7 +14,7 @@ const NUserForm = ({ onSubmit, buttonTitle, onInputChange }) => {
     <StyledForm onSubmit={handleSubmit}>
       <StyledInput
         type="text"
-        placeholder="Name"
+        placeholder="Kullanıcı Adı"
         value={name}
         onChange={(e) => {
           setName(e.target.value);
@@ -24,7 +24,7 @@ const NUserForm = ({ onSubmit, buttonTitle, onInputChange }) => {
       />
       <StyledInput
         type="password"
-        placeholder="Password"
+        placeholder="Şifre"
         value={password}
         onChange={(e) => {
           setPassword(e.target.value);

@@ -25,9 +25,9 @@ export default function TableHeader({
         <th>Açıklama</th>
         {isAdmin && (
           <>
-            <th style={{width: '80px'}}>Oluşturuldu</th>
-            <th style={{width: '80px'}}>İşlemde</th>
-            <th style={{width: '80px'}}>Tamamlandı</th>
+            <th style={{width: '80px'}}>Sipariş</th>
+            <th style={{width: '80px'}}>İşlem</th>
+            <th style={{width: '80px'}}>Bitiş</th>
           </>
         )}
         {isAdmin && !isOld && (

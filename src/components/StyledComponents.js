@@ -23,7 +23,7 @@ const StyledButton = styled.button`
   transition: background-color 0.3s ease;
   color:black;
   background-color: #e2e2e2;
-  border: 1px solid #a0a0ff;
+  border: 1px solid #323232;
   border-radius: 8px;
   font-weight: 600;
 
@@ -38,7 +38,7 @@ const StyledButton2 = styled.button`
   transition: background-color 0.3s ease;
   color:black;
   background-color: #e2e2e2;
-  border: 1px solid #a0a0ff;
+  border: 1px solid #323232;
   border-radius: 8px;
 
   &:hover {
@@ -73,6 +73,10 @@ const StyledInput = styled.input`
   box-sizing: border-box;
   border: 1px solid #ccc;
   border-radius: 3px;
+  &:focus {
+    outline: none;
+    border-color: #323232;
+    }
 `;
 // Styled input component
 const StyledTextArea = styled.textarea`

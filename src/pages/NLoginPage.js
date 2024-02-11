@@ -25,10 +25,10 @@ export default function NLoginPage({ navigate }) {
   }
   return (
     <div className="columnDiv mt-20">
-      <h2>Giriş</h2>
+      <h2>Boise Atölye</h2>
       <NUserForm
         onSubmit={loadDatas}
-        buttonTitle={"Login"}
+        buttonTitle={"Giriş Yap"}
         onInputChange={(value) => setMessage(value)}
       />
       <p className="columnDiv">{message}</p>

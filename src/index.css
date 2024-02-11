@@ -12,7 +12,7 @@ table{
   width: 100%;
 }
 table th, table td{
-  border: 1px solid #a0a0ff;
+  border: 1px solid #323232;
   padding: 8px;
 }
 
@@ -34,6 +34,7 @@ table td input, table td textarea {
 table td textarea {
   padding: 0 !important;
   resize: none;
+  color: rgba(0,0,0,0.7);
   min-height: 80px;
   max-height: 80px;
   min-width: 300px;
@@ -58,7 +59,7 @@ table td textarea::-webkit-scrollbar-thumb:hover {
 .container{
   color:black;
   background-color: #e2e2e2;
-  border: 1px solid #a0a0ff;
+  border: 1px solid #323232;
   border-radius: 8px;
 }
 .navbar .container {
@@ -111,7 +112,7 @@ code {
 .rowDiv>button:first-child, .rowDiv>button:last-child {
   font-size: 16px;
   font-weight: 900;
-  color: #a0a0ff;
+  color: #323232;
 }
 .rowDiv>button:first-child:disabled, .rowDiv>button:last-child:disabled {
   font-size: 16px;
@@ -120,7 +121,7 @@ code {
 }
 .rowDiv>button:hover, .selectedPage {
   background-color: #e2e2e2 !important;
-  border: 1px solid #a0a0ff !important;
+  border: 1px solid #323232 !important;
   border-radius: 8px !important;
 }
 .rowDiv>button:first-child:disabled:hover, .rowDiv>button:last-child:disabled:hover {
