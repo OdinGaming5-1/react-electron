@@ -1,5 +1,5 @@
 // electron.js
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 
 require("@electron/remote/main").initialize();
@@ -18,6 +18,7 @@ function createWindow() {
       nodeIntegration: true,
       devTools: false,
       enableRemoteModule: true,
+      contextIsolation: false
     },
   });
   win.setMenu(null);
@@ -48,3 +49,7 @@ app.on("activate", () => {
     createWindow();
   }
 });
+
+ipcMain.on('quit', () => {
+  app.quit();
+})

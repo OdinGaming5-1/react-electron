@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { LoginUser } from "../rolesTableHandler";
 import NUserForm from "../components/NUserForm";
+import { StyledButton } from "../components/StyledComponents";
+const { ipcRenderer } = window.require('electron');
 
 export default function NLoginPage({ navigate }) {
   const [message, setMessage] = useState("");
@@ -32,6 +34,7 @@ export default function NLoginPage({ navigate }) {
         onInputChange={(value) => setMessage(value)}
       />
       <p className="columnDiv">{message}</p>
+      <StyledButton onClick={() => ipcRenderer.send('quit', {})} children="Uygulamayı Kapat" />
     </div>
   );
 }
