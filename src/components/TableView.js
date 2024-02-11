@@ -64,12 +64,10 @@ export default function TableView({ builder, isAdmin = false, isOld = false }) {
       {rows.length <= 0 && <p>Kayıt Yok</p>}
       <div className="rowDiv" style={{marginTop: '16px', marginBottom: '24px'}}>
         <button disabled={page === 1} onClick={() => setPage(page - 1)}>{'<'}</button>
-        {Array.from({ length: Math.min(pageCount - page + 1, 4) }, (v, i) => i + page + (page === 1 ? 0 : -1)).map((p) => (
-          <button className={page === p ? "selectedPage" : ""} key={p} onClick={() => setPage(p)}>
-            {p}
-          </button>
+        {Array.from({ length: 4 }, (v, i) => i + page + (page === 1 ? 0 : (page < pageCount - 4 ? -1 : -3))).map((p) => (
+          <button className={page === p ? "selectedPage" : ""} key={p} onClick={() => setPage(p)} children={p} />
         ))}
-        <button disabled={page > pageCount - 4} onClick={() => setPage(page + 1)}>{'>'}</button>
+        <button disabled={page === pageCount} onClick={() => setPage(page + 1)}>{'>'}</button>
       </div>
       {/* <div>
         {[5, 8, 12].map((c) => (
