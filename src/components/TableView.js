@@ -7,7 +7,7 @@ export default function TableView({ builder, isAdmin = false, isOld = false }) {
   const [rows, setRows] = useState([]);
   const [page, setPage] = useState(1);
   //const [itemCount, setItemCount] = useState(5);
-  const [itemCount] = useState(6);
+  const [itemCount] = useState(5);
   const [pageCount, setPageCount] = useState(1);
   const [statusFilter, setStatusFilter] = useState(isOld ? [StatusEnum.Done] : all());
   const [statusIndex, setStatusIndex] = useState(0);

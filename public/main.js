@@ -1,40 +1,49 @@
 // electron.js
-const { app, BrowserWindow } = require('electron');
-const path = require('path')
+const { app, BrowserWindow } = require("electron");
+const path = require("path");
 
 require("@electron/remote/main").initialize();
 
 function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1280,
+    height: 720,
+    title: "Boise",
+    fullscreen: true,
+    //fullscreenable: true,
     resizable: true,
+    autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true
-    }
-  })
+      devTools: false,
+      enableRemoteModule: true,
+    },
+  });
   win.setMenu(null);
-  if(true)
-  {
-    win.loadURL('http://localhost:3000');
+  if (true) {
+    win.loadURL("http://localhost:3000");
+    const icon = path.join(__dirname, "../public/diamond.png");
+    win.setIcon(icon);
+    win.setOverlayIcon(icon);
+  } else {
+    win.loadURL(`file://${path.join(__dirname, "../build/index.html")}`);
+    const icon = path.join(__dirname, "../build/diamond.png");
+    win.setIcon(icon);
+    win.setOverlayIcon(icon);
   }
-  else{
-    win.loadURL(`file://${path.join(__dirname, '../build/index.html')}`);
-  }
-  win.webContents.openDevTools(); //{ mode: 'detach' }
+  // win.webContents.openDevTools(); //{ mode: 'detach' }
 }
 
 app.whenReady().then(createWindow);
 
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit()
+app.on("window-all-closed", () => {
+  if (process.platform !== "darwin") {
+    app.quit();
   }
-})
-app.on('activate', () => {
+});
+app.on("activate", () => {
   if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow()
+    createWindow();
   }
-})
+});
