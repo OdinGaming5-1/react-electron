@@ -19,7 +19,7 @@ export default function AtolyeTableRow({ data, onSave }) {
       }
     >
       <td>
-        <input disabled type="text" value={data?.name} />
+        <textarea disabled value={data?.name} />
       </td>
       <td>
         <textarea style={{minWidth: '420px', maxWidth: '420px'}} disabled value={data?.detail} />

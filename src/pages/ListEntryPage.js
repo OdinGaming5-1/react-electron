@@ -1,5 +1,5 @@
 import React from "react";
-import { DeleteById, UpdateRow, UpdateStatus } from "../mainTableHandler";
+import { UpdateRow, UpdateStatus } from "../mainTableHandler";
 import AdminTableRow from "../components/AdminTableRow";
 import Title from "../components/Title";
 import TableView from "../components/TableView";
@@ -10,9 +10,16 @@ export default function ListEntryPage({ navigate }) {
       <AdminTableRow
         data={row}
         key={row.id}
-        onEdit={async (value) => await UpdateRow(value).then((v) => loadData())}
-        onCancel={async (value) => await UpdateStatus(row.id, value).then((v) => loadData())}
-        onDelete={async (value) => await DeleteById(value).then((v) => loadData())}
+        onEdit={async (value) => {
+          await UpdateRow(value);
+          await loadData();
+          console.log("onEdit");
+        }}
+        onCancel={async (value) => {
+          await UpdateStatus(row.id, value);
+          await loadData();
+          console.log("onCancel");
+        }}
       />
     );
   }

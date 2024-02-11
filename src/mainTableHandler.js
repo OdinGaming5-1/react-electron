@@ -82,7 +82,7 @@ export async function UpdateStatus(id, value) {
       .update(updateData)
       .eq("id", id);
     if (error) throw error;
-    console.log("Update");
+    console.log("Update", id, updateData);
   } catch (error) {
     console.error("Update", error);
   }
@@ -95,6 +95,7 @@ export async function UpdateRow(value) {
       .update(value)
       .eq("id", value.id);
     if (error) throw error;
+    console.log('UpdateRow', value);
   } catch (error) {
     console.error("Update", error);
   }
@@ -121,7 +122,7 @@ export async function ExportCSV() {
       .from("mainTable")
       .select(`musteri_adi: name, 
         aciklama: detail, 
-        olusturma_tarihi: createdDate, 
+        siparis_tarihi: createdDate, 
         islem_tarihi: processDate, 
         bitis_tarihi: finishedDate`)
       .csv();

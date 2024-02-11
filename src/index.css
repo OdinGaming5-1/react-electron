@@ -21,20 +21,13 @@ table>*{
   text-align: center;
 }
 
-table td input, table td textarea {
-  border: none;
-  color: black;
-  background: transparent;
-  font-weight: 600;
-  min-height: 60px;
-  max-height: 60px;
-  min-width: 120px;
-  max-width: 120px;
-}
 table td textarea {
   padding: 0 !important;
   resize: none;
+  border: none;
   color: rgba(0,0,0,0.7);
+  background: transparent;
+  font-weight: 600;
   min-height: 80px;
   max-height: 80px;
   min-width: 300px;

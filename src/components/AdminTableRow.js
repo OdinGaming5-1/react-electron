@@ -1,20 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import StatusEnum from "../StatusEnum";
 import { GetFormattedDate } from "../pages/Util";
 
-export default function AdminTableRow({
-  data,
-  onSave,
-  onEdit,
-  onCancel,
-  isOld,
-}) {
+export default function AdminTableRow({ data, onEdit, onCancel, isOld }) {
   const [editable, setEditable] = useState(false);
   const [state, setState] = useState(data);
-  const [className] = useState(getClassNameFromStatus());
+  const [className, setClassName] = useState(getClassNameFromStatus());
 
   function getClassNameFromStatus() {
-    switch (state?.status) {
+    switch (state.status) {
       case StatusEnum.New:
         return "greenRow";
       case StatusEnum.Processing:
@@ -29,58 +23,47 @@ export default function AdminTableRow({
   }
 
   const setField = ({ name, e }) => {
-    setState({
-      ...state,
-      [name]: e.target.value,
-    });
+    setState({ ...state, [name]: e });
   };
+
+  useEffect(() => {
+    setClassName(getClassNameFromStatus());
+  }, [state.status]);
 
   return (
     <tr className={className}>
       <td>
-        <input
+        <textarea
           disabled={!editable}
-          type="text"
-          style={{width: '140px'}}
           placeholder="Müşteri adını giriniz"
-          value={state?.name}
-          onChange={(e) => setField({ name: "name", e: e })}
+          value={state.name}
+          onChange={(e) => setField({ name: "name", e: e.target.value })}
         />
       </td>
       <td>
         <textarea
           disabled={!editable}
           placeholder="Yapılacak işin açıklamasını giriniz"
-          value={state?.detail}
-          onChange={(e) => setField({ name: "detail", e: e })}
+          value={state.detail}
+          onChange={(e) => setField({ name: "detail", e: e.target.value })}
         />
       </td>
-      <td>{GetFormattedDate(state?.createdDate)}</td>
-      <td>{GetFormattedDate(state?.processDate)}</td>
-      <td>{GetFormattedDate(state?.finishedDate)}</td>
+      <td>{GetFormattedDate(state.createdDate)}</td>
+      <td>{GetFormattedDate(state.processDate)}</td>
+      <td>{GetFormattedDate(state.finishedDate)}</td>
       {!isOld && (
         <td>
-          <span disabled={!editable}>{state?.status}</span>
+          <span disabled={!editable}>{state.status}</span>
         </td>
       )}
       <td>
-        {onSave && (
+        {onEdit && state.status === StatusEnum.New && (
           <button
-            onClick={() => {
-              onSave(state);
-              setState({ status_id: 1, name: "", detail: "" });
-            }}
-          >
-            Ekle
-          </button>
-        )}
-        {onEdit && state?.status === StatusEnum.New && (
-          <button
-            onClick={function () {
+            onClick={async function () {
               if (editable) {
                 let val = { ...state };
                 delete val.status;
-                onEdit(val);
+                await onEdit(val);
               }
               setEditable((p) => !p);
             }}
@@ -88,20 +71,16 @@ export default function AdminTableRow({
             {editable ? "Tamamla" : "Düzenle"}
           </button>
         )}
-        {onCancel && state?.status !== StatusEnum.Cancel && (
-          <button onClick={() => onCancel(StatusEnum.Cancel)}>İptal</button>
+        {onCancel && state.status !== StatusEnum.Cancel && (
+          <button
+            onClick={async () => {
+              await onCancel(StatusEnum.Cancel);
+              setState({ ...state, status: StatusEnum.Cancel });
+            }}
+          >
+            İptal
+          </button>
         )}
-        {/* <button
-          onClick={() => {
-            if (onDelete) {
-              onDelete(data?.id);
-              return;
-            }
-            setState(null);
-          }}
-        >
-          Sil
-        </button> */}
       </td>
     </tr>
   );

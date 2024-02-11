@@ -21,10 +21,11 @@ function createWindow() {
     },
   });
   win.setMenu(null);
-  if (true) {
+  if (false) {
     win.loadURL("http://localhost:3000");
     const icon = path.join(__dirname, "../public/diamond.png");
     win.setIcon(icon);
+    win.webContents.openDevTools();
     win.setOverlayIcon(icon);
   } else {
     win.loadURL(`file://${path.join(__dirname, "../build/index.html")}`);

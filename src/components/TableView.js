@@ -35,6 +35,7 @@ export default function TableView({ builder, isAdmin = false, isOld = false }) {
       itemCount: itemCount,
     });
     if(shouldSetPage) setPage(1);
+    console.log(data)
     setRows(data);
     await getPageCount(length);
   }
